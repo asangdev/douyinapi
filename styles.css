@@ -1,0 +1,261 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f5;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+h2 {
+  text-align: center;
+  font-size: 44px;
+  color: #252632;
+  font-weight: bold;
+}
+
+.gallery {
+  display: grid;
+  grid-gap: 20px;
+  justify-content: center;
+  margin-bottom: 30px; /* Khoảng cách dưới .gallery */
+}
+
+.douyinurl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px; /* Thêm khoảng cách phía dưới */
+}
+
+input#videoUrl {
+  flex: 1; /* Chiếm hết chiều rộng còn lại */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px; /* Bo tròn phía bên trái */
+  margin-right: -1px; /* Loại bỏ khoảng cách giữa input và button */
+}
+
+button#fetchVideo {
+  width: 38px; /* Chiều rộng bằng chiều cao, tạo thành hình vuông */
+  height: 38px; /* Giả sử chiều cao hiện tại là 45px */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 0 4px 4px 0; /* Bo tròn phía bên phải */
+  background-color: #4CAF50;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button#fetchVideo::before {
+  content: "\21D3"; /* Sử dụng một mã Unicode tượng trưng cho icon tải xuống */
+  font-size: 20px;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 4px;
+  border-radius: 50%;
+  position: relative;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.photo-card {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.icon-heart {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  color: white;
+  padding: 4px;
+}
+
+/* Responsive breakpoints */
+@media (min-width: 1440px) {
+  .gallery {
+    grid-template-columns: repeat(5, 200px); /* 5 thẻ trên một hàng */
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .gallery {
+    grid-template-columns: repeat(4, 200px); /* 4 thẻ trên một hàng */
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .gallery {
+    grid-template-columns: repeat(3, 200px); /* 3 thẻ trên một hàng */
+  }
+}
+
+@media (min-width: 425px) and (max-width: 767px) {
+  .gallery {
+    grid-template-columns: repeat(2, 200px); /* 2 thẻ trên một hàng */
+  }
+}
+
+@media (max-width: 424px) {
+  .gallery {
+    grid-template-columns: repeat(1, 200px); /* 1 thẻ trên một hàng */
+  }
+}
+
+
+
+.container.hide-photos .photo-card {
+  visibility: hidden; /* Sử dụng visibility để ẩn nhưng vẫn giữ không gian cho các phần tử */
+}
+
+.photo-card .media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.photo-card img,
+.photo-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.photo-card video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+
+.icon-heart {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  color: white;
+  padding: 4px;
+}
+
+.photo-card:hover .icon-heart {
+  display: none;
+}
+
+.caption {
+  width: 100%;
+  padding-top: 5px;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.media {
+  cursor: pointer; /* Thêm cursor pointer khi hover */
+}
+
+.media {
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Hiệu ứng mặc định không phát sáng */
+.media:not(.glow) {
+  box-shadow: none;
+}
+
+/* Khi .media có class .glow, áp dụng hiệu ứng phát sáng */
+.media.glow {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.75);
+}
+
+/* Lightbox và hiệu ứng ánh sáng điện ảnh */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0); /* Đặt lightbox ở trung tâm và bắt đầu từ kích thước 0 */
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  transition: transform 0.5s ease-in-out; /* Chuyển đổi mượt mà */
+}
+
+.lightbox.active {
+  background: radial-gradient(
+    circle at center,
+    #2d2d2d,
+    /* Bắt đầu tăng độ mờ từ trung tâm */ rgba(0, 0, 0, 0.95) 100%
+      /* Đảm bảo phần rìa của lightbox hoàn toàn không trong suốt */
+  );
+  /* Hiệu ứng ánh sáng lan tỏa từ trung tâm ra ngoài được điều chỉnh */
+  display: flex;
+  transform: translate(-50%, -50%) scale(1); /* Phóng to lightbox về kích thước ban đầu */
+}
+
+#lightboxVideo {
+  max-width: 70%; /* Điều chỉnh kích thước video phù hợp */
+  z-index: 1051; /* Đảm bảo video nằm trên hiệu ứng ánh sáng */
+  margin: auto;
+  position: relative;
+}
+
+@keyframes burnEffect {
+  from {
+    background-size: 200% 100%;
+    background-position: right bottom;
+  }
+  to {
+    background-size: 200% 100%;
+    background-position: left bottom;
+  }
+}
+
+.video-progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 5px;
+  background-color: red;
+  background-image: linear-gradient(to right, orange, red, black);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  animation: burnEffect 2s linear forwards;
+  width: 0%;
+  z-index: 1000;
+  transition: width 0.5s ease-out;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Thư viện Video</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header "" -->
+      <div class="header">
+        <h2>Demo APIs Douyin</h2>
+
+        <div class="douyinurl">
+          <input
+            type="text"
+            id="videoUrl"
+            placeholder="Nhập URL video tại đây"
+          />
+          <button id="fetchVideo"></button>
+        </div>
+      </div>
+
+      <!-- Gallery chứa các photo-card -->
+      <div class="gallery">
+        <div class="photo-card" data-id="1">
+          <div class="media">
+            <img src="/img/1.jpeg" alt="Anh" />
+            <video loop muted>
+              <source src="/video/1.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div class="icon-heart">❤️ 0</div>
+          <div class="caption"></div>
+        </div>
+        <!-- Lightbox cho video -->
+        <div id="videoLightbox" class="lightbox">
+          <video id="lightboxVideo">
+            <source src="" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+      <script src="scripts.js"></script>
+      <body>
+        <html></html>
+      </body>
+    </div>
+  </body>
+</html>
