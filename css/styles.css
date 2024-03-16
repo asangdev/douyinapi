@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -53,7 +54,7 @@ button#fetchVideo {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 0 4px 4px 0; /* Bo tròn phía bên phải */
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   display: flex;
   justify-content: center;
@@ -65,22 +66,28 @@ button#fetchVideo::before {
   font-size: 20px;
 }
 
-.loading-spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
+.loading-bar {
   width: 100%;
   height: 4px;
-  border-radius: 50%;
+  background-color: #ccc;
   position: relative;
-  animation: spin 1s linear infinite;
+  overflow: hidden;
+  display: none; /* Ẩn thanh loading khi chưa sử dụng */
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.loading-bar.active {
+  display: block; /* Hiện thanh loading khi kích hoạt */
+}
+
+.loading-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #4CAF50;
+  transition: width 2s linear; /* Sử dụng transition thay vì animation */
 }
 
 
@@ -130,8 +137,6 @@ button#fetchVideo::before {
     grid-template-columns: repeat(1, 200px); /* 1 thẻ trên một hàng */
   }
 }
-
-
 
 .container.hide-photos .photo-card {
   visibility: hidden; /* Sử dụng visibility để ẩn nhưng vẫn giữ không gian cho các phần tử */
